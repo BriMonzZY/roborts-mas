@@ -1,0 +1,11 @@
+<launch>
+    <master auto="start"/>
+
+    <node pkg="roborts_detection" type="armor_detection_node" name="armor_detection_node" output="screen" respawn="true" />
+
+    <node pkg="roborts_detection" type="armor_detection_client" name="armor_detection_client" output="screen" respawn="true" />
+
+    <!-- usb cam -->
+    <include file="$(find roborts_bringup)/launch/usb_cam.launch" />
+
+</launch>

@@ -1,0 +1,34 @@
+<launch>
+  <!-- map -->
+  <arg name="map" value="rmul2023"/>
+
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+  <!--Load parameters for localization node  -->
+  <!-- <rosparam command="load" file="$(find roborts_localization)/config/localization.yaml" />
+  <rosparam command="load" file="$(find roborts_localization)/amcl/config/amcl.yaml" /> -->
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find roborts_bringup)/maps/$(arg map).yaml" respawn="false" />
+
+  <!-- Run costmap test -->
+  <!-- <node name="costmap_test" pkg="roborts_costmap" type="test_costmap" respawn="false" /> -->
+
+
+  <!-- Run the stage simulator -->
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find roborts_bringup)/worlds/$(arg map).world" respawn="false" >
+    <remap from="base_scan" to="scan" />
+    <param name="base_watchdog_timeout" value="0.01" />
+  </node>
+
+  <node name="tf_map_odom" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map odom 50" />
+
+  <!-- laser detection -->
+  <node name="laser_detection" pkg="laser_detection" type="laser_detection_node" respawn="false" />
+
+  <!-- Run the rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find roborts_bringup)/rviz/roborts_test_costmap.rviz" />
+
+
+</launch>

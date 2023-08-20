@@ -1,0 +1,48 @@
+<launch>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="frist">
+    <param name="lidar_name" value="M10_P"/>                          #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="serial_port" value="/dev/wheeltec_lidar"/>                #雷达连接的串口
+    <param name="interface_selection" value="serial"/>              #接口选择:net 为网口,serial 为串口。
+    <param name="frame_id" value="laser"/>               #激光坐标
+    <param name="min_distance" type="double" value="0"/>            #雷达接收距离最小值
+    <param name="max_distance" type="double" value="100"/>          #雷达接收距离最大值
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+  </node>
+
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="second">
+    <param name="lidar_name" value="M10_P"/>                          #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="serial_port" value="/dev/wheeltec_lidar"/>                #雷达连接的串口
+    <param name="interface_selection" value="serial"/>              #接口选择:net 为网口,serial 为串口。
+    <param name="frame_id" value="laser"/>               #激光坐标
+    <param name="min_distance" type="double" value="0"/>            #雷达接收距离最小值
+    <param name="max_distance" type="double" value="100"/>          #雷达接收距离最大值
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+  </node>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="thirdly">
+    <param name="lidar_name" value="M10_P"/>                          #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="serial_port" value="/dev/wheeltec_lidar"/>                #雷达连接的串口
+    <param name="interface_selection" value="serial"/>              #接口选择:net 为网口,serial 为串口。
+    <param name="frame_id" value="laser"/>               #激光坐标
+    <param name="min_distance" type="double" value="0"/>            #雷达接收距离最小值
+    <param name="max_distance" type="double" value="100"/>          #雷达接收距离最大值
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+  </node>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="fourthly">
+    <param name="lidar_name" value="M10_P"/>                          #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="serial_port" value="/dev/wheeltec_lidar"/>                #雷达连接的串口
+    <param name="interface_selection" value="serial"/>              #接口选择:net 为网口,serial 为串口。
+    <param name="frame_id" value="laser"/>               #激光坐标
+    <param name="min_distance" type="double" value="0"/>            #雷达接收距离最小值
+    <param name="max_distance" type="double" value="100"/>          #雷达接收距离最大值
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+  </node>
+
+</launch>

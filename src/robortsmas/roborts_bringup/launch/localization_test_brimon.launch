@@ -1,0 +1,30 @@
+<launch>
+    <arg name="map" value="icra2019"/>
+    <master auto="start"/>
+    <param name="/use_sim_time" value="true"/>
+
+    <!--Load parameters for localization node  -->
+    <rosparam command="load" file="$(find roborts_localization)/config/localization.yaml" />
+
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find roborts_bringup)/maps/$(arg map).yaml" respawn="false" />
+
+    <!-- Run the stage simulator -->
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find roborts_bringup)/worlds/$(arg map).world" respawn="false" >
+        <remap from="base_scan" to="scan" />
+        <param name="base_watchdog_timeout" value="0.01" />
+    </node>
+
+
+    <!-- Run the amcl -->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <rosparam file="$(find roborts_localization)/amcl/config/amcl.yaml" command="load" />
+        <param name="initial_pose_x" value="1"/>
+        <param name="initial_pose_y" value="1"/>
+        <param name="initial_pose_a" value="0"/>
+    </node>
+
+    <!-- Run the rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find roborts_bringup)/rviz/roborts_brimon.rviz" />
+
+</launch>

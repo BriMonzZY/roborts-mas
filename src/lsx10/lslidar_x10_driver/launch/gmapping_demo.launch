@@ -1,0 +1,9 @@
+<launch>
+	<include file="$(find lslidar_x10_driver)/launch/gmapping.launch"/>
+
+	<!-- <node pkg="rviz" type="rviz" name="rviz" /> -->
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find lslidar_x10_driver)/rviz/mapping.rviz"/>
+	
+	<node name="tf_map_odom" pkg="tf" type="static_transform_publisher" args="0 0 0 3.14 0 0 base_link laser  50" />
+</launch>
+

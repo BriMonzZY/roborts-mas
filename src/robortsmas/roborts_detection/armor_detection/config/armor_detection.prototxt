@@ -1,0 +1,16 @@
+name: "constraint_set"  # 装甲板识别算法的名称
+selected_algorithm: "constraint_set" # 选择装甲板识别算法的名称
+undetected_armor_delay: 70 # 未检测到装甲板时, 继续发布上一帧数据的次数 10
+camera_name: "usb_cam" # 相机名称, 应该和roborts_camera配置文件中的camera_name相同
+camera_gimbal_transform {
+    offset_x :0 # 相机与云台x方向偏移
+    offset_y :17.5 # 相机与云台y方向偏移 10
+    offset_z :50 # 相机与云台z方向偏移 9
+    offset_pitch : -5.5 # 相机与云台pitch角偏移 -2.5 -5
+    offset_yaw : 0.0  # 相机与云台yaw角偏移 4.5 调大偏左
+}
+
+projectile_model_info {
+    init_v: 200 # Launching projectile velocity 弹丸出射速度 15
+    init_k: 0.026 # 空气阻力常数, 具体参考projectile_model.pdf
+}

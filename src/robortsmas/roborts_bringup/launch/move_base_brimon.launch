@@ -1,0 +1,49 @@
+<launch>
+    <!-- <arg name="map" value="rmul2023"/> -->
+    <arg name="map" value="icra2019"/>
+    <master auto="start"/>
+    <param name="/use_sim_time" value="true"/>
+
+    <!--Load parameters for localization node  -->
+    <rosparam command="load" file="$(find roborts_localization)/config/localization.yaml" />
+
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find roborts_bringup)/maps/$(arg map).yaml" respawn="false" />
+
+    <!-- Run the stage simulator -->
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find roborts_bringup)/worlds/$(arg map).world" respawn="false" >
+        <remap from="base_scan" to="scan" />
+        <param name="base_watchdog_timeout" value="0.01" />
+    </node>
+
+    <!-- Run the amcl 代替localization -->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <rosparam file="$(find roborts_localization)/amcl/config/amcl.yaml" command="load" />
+        <!-- <param name="initial_pose_x" value="2.900"/>
+        <param name="initial_pose_y" value="3.350"/> -->
+        <param name="initial_pose_x" value="1"/>
+        <param name="initial_pose_y" value="1"/>
+        <param name="initial_pose_a" value="0"/>
+    </node>
+
+    <!--  ************** Navigation ***************  代替planner节点 -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find roborts_planning)/planning_param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find roborts_planning)/planning_param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find roborts_planning)/planning_param/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find roborts_planning)/planning_param/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find roborts_planning)/planning_param/planner.yaml" command="load" />
+        <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+        <param name="planner_frequency" value="1.0" />
+        <param name="planner_patience" value="5.0" />
+        <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
+        <param name="controller_frequency" value="5.0" />
+        <param name="controller_patience" value="15.0" />
+        <param name="clearing_rotation_allowed" value="true" />
+    </node>
+
+
+    <!-- Run the rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find roborts_bringup)/rviz/roborts_brimon.rviz" />
+
+</launch>

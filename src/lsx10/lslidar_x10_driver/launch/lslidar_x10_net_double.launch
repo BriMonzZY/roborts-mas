@@ -1,0 +1,35 @@
+<launch>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="LeftLidar">
+    <param name="frame_id" value="laser"/>                     #激光坐标
+    <param name="device_ip" value="192.168.1.200"/>                 #雷达源IP
+    <param name="device_port" value="2368"/>                        #雷达目的端口号
+    <param name="difop_ip" value="192.168.1.102"/>                  #雷达目的ip
+    <param name="difop_port" value="2369"/>                         #雷达源端口号
+    <param name="lidar_name" value="M10_P"/>                     #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="interface_selection" value="net"/>                 #接口选择:net 为网口,serial 为串口。
+    <param name="min_distance" type="double" value="0"/>            #雷达接收距离最小值
+    <param name="max_distance" type="double" value="100"/>          #雷达接收距离最大值
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+
+    <!--param name="pcap" value="$(find lslidar_x10_driver)/pcap/***.pcap"/-->
+  </node>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="RightLidar">
+    <param name="frame_id" value="laser"/>                     #激光坐标
+    <param name="device_ip" value="192.168.1.200"/>                 #雷达源IP
+    <param name="device_port" value="2368"/>                        #雷达目的端口号
+    <param name="difop_ip" value="192.168.1.102"/>                  #雷达目的ip
+    <param name="difop_port" value="2369"/>                         #雷达源端口号
+    <param name="lidar_name" value="M10_P"/>                     #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="interface_selection" value="net"/>                 #接口选择:net 为网口,serial 为串口。
+    <param name="min_distance" type="double" value="0"/>            #雷达接收距离最小值
+    <param name="max_distance" type="double" value="100"/>          #雷达接收距离最大值
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+
+    <!--param name="pcap" value="$(find lslidar_x10_driver)/pcap/***.pcap"/-->
+  </node>
+
+</launch>

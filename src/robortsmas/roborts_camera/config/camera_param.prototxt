@@ -1,0 +1,41 @@
+camera: {
+  camera_name: "usb_cam"
+  camera_type: "uvc"
+  camera_path: "/dev/video0"
+
+  camera_matrix {
+    data: 741.74599147
+    data: 0.0
+    data: 304.3593228
+    data: 0.0
+    data: 747.14014339
+    data: 171.27549245
+    data: 0.0
+    data: 0.0
+    data: 1.0
+  }
+
+  camera_distortion {
+    data: -5.43131959e-01
+    data: 1.18894178e+00
+    data: 8.99968544e-04
+    data: -5.72023423e-04
+    data: -3.54061653e+00
+  }
+
+  resolution {
+    width: 640
+    height: 360
+
+    width_offset: 0
+    height_offset: 0
+  }
+
+  fps: 100
+  auto_exposure: 0
+  exposure_value: 60
+  exposure_time: 5
+  auto_white_balance: 1
+  auto_gain: 0
+}
+

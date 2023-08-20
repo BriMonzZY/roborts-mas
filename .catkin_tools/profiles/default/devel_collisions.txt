@@ -1,0 +1,6 @@
+/home/brimon/rm_ws/devel/./cmake.lock 889
+/media/brimon/Other/slam/rm_ws/devel/./cmake.lock 378
+/media/brimon/Other/slam/rm_ws_new/devel/./cmake.lock 85
+/home/mas/roborts_mas/devel/./cmake.lock 3587
+/home/brimon/slam/roborts_mas/devel/./cmake.lock 14
+/home/brimon/roborts_mas/devel/./cmake.lock 56

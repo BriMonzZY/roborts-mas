@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="sentry">
+
+    <!-- <link name="dummy">
+    </link>
+    <joint name="dummy_joint" type="fixed">
+      <parent link="dummy"/>
+      <child link="base_link"/>
+    </joint> -->
+
+    <link name="base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="base">
+        <origin xyz="-0.00344 0.04636 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://roborts_bringup/meshes/dae/base_link.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision name="base">
+        <origin xyz="0 -2e-05 -0.03168" rpy="1.5708 0 0"/>
+        <geometry>
+          <box size="0.5 0.28033 0.595"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="camera_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="Cube">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.04 0.04 0.04"/>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="camera2_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="camera2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.04 0.04 0.04"/>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="turret_pitch_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="turret_pitch">
+        <origin xyz="0.02853 -0.05461 0.05365" rpy="0 1.5708 0"/>
+        <geometry>
+          <mesh filename="package://roborts_bringup/meshes/dae/turret_pitch.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision name="turret_pitch">
+        <origin xyz="0.06629 -0.05478 0.06775" rpy="0 1.5708 0"/>
+        <geometry>
+          <box size="0.10594 0.12283 0.28648"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="turret_yaw_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="turret_yaw">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://roborts_bringup/meshes/dae/turret_yaw.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision name="turret_yaw">
+        <origin xyz="-0.01409 0.00635 -0.01969" rpy="1.5708 0 0"/>
+        <geometry>
+          <box size="0.24047 0.21628 0.39979"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="camera_link" type="fixed">
+      <origin xyz="0.15971 0.04459 0.068" rpy="-1.5708 1.5708 0"/>
+      <axis xyz="0 1 0" />
+      <parent link="turret_pitch_link"/>
+      <child link="camera_link"/>
+    </joint>
+
+    <joint name="camera2_link" type="fixed">
+      <origin xyz="0 -0.2 0.07702" rpy="0 0 0"/>
+      <axis xyz="0 1 0" />
+      <parent link="base_link"/>
+      <child link="camera2_link"/>
+    </joint>
+
+    <joint name="turret_pitch_joint" type="revolute">
+      <origin xyz="0.05365 0.02853 0.05461" rpy="1.5708 0 -1.5708"/>
+      <parent link="turret_yaw_link"/>
+      <child link="turret_pitch_link"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-1.04" upper="1.04" effort="5.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="turret_yaw_joint" type="revolute">
+      <origin xyz="0.01434 -0.02883 0.18781" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="turret_yaw_link"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14" upper="3.14" effort="5.0" velocity="1.0"/>
+    </joint>
+
+<!-- When joint control is not needed, comment the following lines -->
+<!-- !!! Keep Joint Control enabled will force you to restart Gazebo if icra_robot is deleted !!! -->
+<!-- Joint Control starts here >
+   <transmission name="tran1">
+     <type>transmission_interface/SimpleTransmission</type>
+     <joint name="turret_yaw_joint">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+     </joint>
+     <actuator name="turret_yaw_motor">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+       <mechanicalReduction>1</mechanicalReduction>
+     </actuator>
+   </transmission>
+
+   <transmission name="tran2">
+     <type>transmission_interface/SimpleTransmission</type>
+     <joint name="turret_pitch_joint">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+     </joint>
+     <actuator name="turret_pitch_motor">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+       <mechanicalReduction>1</mechanicalReduction>
+     </actuator>
+   </transmission >
+
+     <gazebo>
+       <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+         <robotNamespace>/icra_robot</robotNamespace>
+       </plugin>
+     </gazebo>
+< Joint Control ends here -->
+
+     <gazebo>
+       <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+         <commandTopic>/cmd_vel</commandTopic>
+         <odometryTopic>odom</odometryTopic>
+         <odometryFrame>odom</odometryFrame>
+         <odometryRate>20.0</odometryRate>
+         <robotBaseFrame>base_link</robotBaseFrame>
+       </plugin>
+     </gazebo>
+
+
+  <!-- camera! -->
+  <gazebo reference="camera2_link">
+  <sensor name='my_camera' type='camera'>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <camera>
+         <pose>0 0 0 0 0 -1.5708</pose>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>usb_cam</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera_link</frameName>				    
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>				    
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>				    
+          <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+  <!-- laser lidar -->
+  <link name="base_laser_link">  
+      <visual>  
+      <geometry>  
+          <cylinder length="0.06" radius="0.04"/>   
+      </geometry>  
+      <material name="white">  
+          <color rgba="1 1 1 1"/>  
+      </material>  
+      </visual>  
+  </link>  
+  <joint name="laser_joint" type="fixed">  
+      <parent link="base_link"/>  
+      <child link="base_laser_link"/>  
+      <origin xyz="0 -0.2 0.14"/>  
+  </joint> 
+
+  <gazebo reference="base_laser_link">
+      <material>Gazebo/FlatBlack</material>
+      <sensor type="ray" name="rplidar_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>7</update_rate>
+      <ray>
+          <scan>
+          <horizontal>
+              <samples>1200</samples>
+              <resolution>0.5</resolution>
+              <min_angle>-3.14</min_angle>
+              <max_angle>3.14</max_angle>
+          </horizontal>
+          </scan>
+          <range>
+          <min>0.120</min>
+          <max>12.0</max>
+          <resolution>0.015</resolution>
+          </range>
+          <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+          </noise>
+      </ray>
+      <plugin name="gazebo_ros_rplidar_controller" filename="libgazebo_ros_laser.so">
+          <topicName>scan</topicName>
+          <frameName>base_laser_link</frameName>
+      </plugin>
+      </sensor>
+  </gazebo>
+  
+
+
+<!-- <gazebo reference="camera2_link">
+<sensor type="multicamera" name="stereo_camera">
+      <update_rate>30.0</update_rate>
+      <camera name="left">
+        <pose>0.035 0 0 0 0 -1.5708</pose>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>400</width>
+          <height>300</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <camera name="right">
+        <pose>-0.035 0 0 0 0 -1.5708</pose>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>400</width>
+          <height>300</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>stereo/camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>left_camera_optical_frame</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo> -->
+
+</robot>
