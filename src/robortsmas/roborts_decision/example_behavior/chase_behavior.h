@@ -219,7 +219,7 @@ class ChaseBehavior {
 
 #endif
 // absolute 4-8-18-55
-#if 1
+#if 0
     auto executor_state = Update();
     std::cout << "armor hurt state: " << (int)(state_flag) << std::endl;
 
@@ -268,6 +268,18 @@ class ChaseBehavior {
     //   gimbal_angle.yaw_angle = 0.0;
     //   gimbal_executor_->Execute(gimbal_angle);
     // }
+#endif
+#if 1
+    auto executor_state = Update();
+    std::cout << "armor hurt state: " << (int)(state_flag) << std::endl;
+    
+    roborts_msgs::GimbalAngle gimbal_angle;
+    geometry_msgs::Twist chassis_speed;
+
+    chassis_speed.linear.x = 0.0;
+    chassis_speed.linear.x = 0.0;
+    chassis_speed.angular.z = 8; // 小陀螺旋转速度
+    chassis_executor_->Execute(chassis_speed);
 #endif
   }
 

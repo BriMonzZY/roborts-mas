@@ -28,6 +28,80 @@
 
 
 
+## 使用指南
+
+环境依赖见 [环境安装](#RoboRTS_Mas依赖环境和编译工具) 
+
+机器人接线框图：
+
+![image-20240326100236190](/home/brimon/temp/roborts-mas/images/image-20240326100236190.png)
+
+配套的电控代码见 [mas-sentry-firmware](https://github.com/BriMonzZY/mas-sentry-firmware.git) 仓库，请忽略这个仓库的接线图。电控代码修改自 [roborts-firmware](https://github.com/RoboMaster/RoboRTS-Firm ware)
+
+
+
+文件结构：
+
+`src/lsx10` 中是lsx10激光雷达的驱动程序，用于生成节点发出点云数据
+
+`src/videototopic` 是一个可以将视频文件通过话题发出的模块，可以替代摄像头用于调试
+
+`src/robortsmas` 中是 roborts-mas 的主要模块，其中各个模块的作用和功能见 [整体架构](#整体架构)
+
+
+
+摄像头目前使用的是USB摄像头，所以直接使用了 roborts 自带的 roborts-camera 模块，这个模块可以通过 v4l2 设置摄像头并发出话题
+
+摄像头相关的参数在 `src/robortsmas/roborts_camera/config/camera_param.prototxt` 中，可以设置摄像头的USB编号和一些标定参数。
+
+`src/robortsmas/roborts_camera/uvc/uvc_driver.cpp` 中可以通过v4l2设置摄像头的参数
+
+
+
+`roborts_base` 是用于接受各个模块的信息并和电控部分通信的模块。
+
+可以通过修改 `CtrlShootService` 函数中的内容来控制射速：
+
+```cpp
+uint16_t default_freq = 2500;
+```
+
+注意2500是最快的射速。
+
+`RobotStatusCallback` 函数用于接收裁判系统的信息并处理机器人id的模块
+
+`RobotDamageCallback`  函数用于接收裁判系统的信息并处理伤害相关的信息
+
+
+
+`roborts_detection` 模块是自瞄算法模块
+
+`src/robortsmas/roborts_detection/armor_detection/config` 可以设置和自瞄相关的参数
+
+`src/robortsmas/roborts_detection/constraint_set/config` 可以设置自瞄的限制相关的参数，可以用于约束自瞄的筛选
+
+在 `armor_detection_node.cpp : ExecuteLoop` 函数中，可以编写和修改关于自瞄检测到目标的相关用户逻辑
+
+`gimbal_control : Transform` 函数可以修改弹道模型
+
+目前的装甲板颜色目标是通过裁判系统接受到的机器人id来判断的。可以通过 `src/robortsmas/roborts_detection/constraint_set/constraint_set.cpp : DetectArmor`  的 `enemy_color` 修改
+
+
+
+`roborts_decision/example_behavior/chase_behavior` 是当前代码指定的行为模式（即上电就是小陀螺，然后云台左右上下旋转寻找目标）
+
+
+
+如果使用 autostart.sh 启动，请修改系统密码
+
+启动后需要 planning 模块和点云数据均正常系统才能正常工作。也可以通过 autostart.sh 控制需要启动的模块
+
+
+
+其他模块就不做过多介绍了
+
+
+
 ## 整体架构
 
 RobotRTS_Mas基于 [RoboRTS](https://github.com/RoboMaster/RoboRTS) ，运行于ros-noetic
@@ -58,8 +132,8 @@ RobotRTS_Mas基于 [RoboRTS](https://github.com/RoboMaster/RoboRTS) ，运行于
 
 - Ubuntu 20.04LTS
 - ROS-noetic
-
 - OpenCV 4.2.0**(一定要4.2.0)**：https://github.com/opencv/opencv/archive/4.2.0.zip
+- cmake 最低版本：3.16
 
 直接执行下面的命令以安装依赖：
 
