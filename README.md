@@ -32,19 +32,21 @@
 <br />
 环境依赖见 [环境安装](#RoboRTS_Mas依赖环境和编译工具) 
 <br />
+<br />
 Hebut 山海Mas战队哨兵机器人：
+<br />
 2023RMUL、2024RMUL：
 <br />
-![rmul](./images/rmul.png)
+ <img src="./images/rmul.png" style="zoom:50%;"  />
 <br />
 2024RMUC：
 <br />
-![rmuc](./images/rmuc.png)
+ <img src="./images/rmuc.png" />
 <br />
 <br />
 机器人接线框图：
 <br />
-![image-20240326100236190](./images/image-20240326100236190.png)
+ <img src="./images/image-20240326100236190.png" />
 <br />
 配套的电控代码见 [mas-sentry-firmware](https://github.com/BriMonzZY/mas-sentry-firmware.git) 仓库，请忽略这个仓库的接线图。电控代码修改自 [roborts-firmware](https://github.com/RoboMaster/RoboRTS-Firm ware)
 <br />
